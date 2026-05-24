@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕋 Halal Bot - Unlimited Trades | Show/Hide Keys</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0A2E1C 0%, #0A3C26 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .header { background: #0A5C36; color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 3px solid #D4AF37; }
+        .logo h1 { font-size: 24px; }
+        .logo p { font-size: 12px; opacity: 0.8; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .btn-header { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
+        .content { padding: 30px; }
+        .panel { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #e0e0e0; }
+        .panel-title { font-size: 18px; font-weight: 600; color: #0A5C36; margin-bottom: 15px; border-bottom: 2px solid #E8F5E9; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 500; color: #333; }
+        .password-wrapper { position: relative; display: flex; align-items: center; }
+        .password-wrapper input { flex: 1; padding-right: 40px; }
+        .toggle-password { position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: #0A5C36; font-size: 16px; }
+        input, select { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+        input:focus { border-color: #0A5C36; outline: none; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 10px; margin-bottom: 10px; transition: all 0.3s; }
+        .btn-primary { background: #0A5C36; color: white; }
+        .btn-primary:hover { background: #0A4A2E; transform: translateY(-1px); }
+        .btn-success { background: #2E7D32; color: white; }
+        .btn-success:hover { background: #1B5E20; }
+        .btn-danger { background: #C62828; color: white; }
+        .btn-danger:hover { background: #B71C1C; }
+        .btn-info { background: #2196F3; color: white; }
+        .btn-info:hover { background: #01579B; }
+        .balance-card { background: #E8F5E9; padding: 15px; border-radius: 10px; text-align: center; }
+        .balance-amount { font-size: 28px; font-weight: bold; color: #0A5C36; }
+        .status { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 20px; font-size: 12px; }
+        .status-active { background: #E8F5E9; color: #2E7D32; }
+        .status-inactive { background: #FFEBEE; color: #C62828; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot.green { background: #2E7D32; animation: pulse 2s infinite; }
+        .dot.red { background: #C62828; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .progress-bar { width: 100%; height: 25px; background: #ddd; border-radius: 12px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #0A5C36, #D4AF37); transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        .footer { background: #E8F5E9; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        .badge { background: #FF9800; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; display: inline-block; margin-bottom: 15px; }
+        .trade-list { max-height: 400px; overflow-y: auto; }
+        .profit-positive { color: #2E7D32; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #E8F5E9; color: #0A5C36; }
+        .message-box { padding: 10px; border-radius: 8px; margin-bottom: 15px; display: none; }
+        .message-success { background: #E8F5E9; color: #2E7D32; border: 1px solid #2E7D32; }
+        .message-error { background: #FFEBEE; color: #C62828; border: 1px solid #C62828; }
+        .admin-section { border-top: 2px solid #D4AF37; margin-top: 20px; padding-top: 20px; }
+        .unlimited-badge { background: #D4AF37; color: #0A5C36; padding: 3px 8px; border-radius: 4px; font-size: 10px; margin-left: 5px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1>🕋 Halal Unlimited Bot</h1>
+            <p>No Fixed Profit % • Captures Market Spread • Unlimited Trades</p>
+        </div>
+        <div class="user-info">
+            <span id="userEmail">Not Logged In</span>
+            <button class="btn-header" id="loginBtn" onclick="showLogin()">Login</button>
+            <button class="btn-header" id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <!-- Login/Register Screen -->
+        <div id="authScreen" style="display:block">
+            <div id="loginForm" class="panel" style="max-width: 450px; margin: 0 auto;">
+                <div class="panel-title">Halal Account Access</div>
+                <div id="loginMessage" class="message-box"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com"></div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Password">
+                        <button class="toggle-password" onclick="togglePassword('loginPassword')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="login()">Login</button>
+                <p style="margin-top:15px; text-align:center"><a href="#" onclick="showRegister()">Don't have an account? Register</a></p>
+            </div>
+            <div id="registerForm" class="panel" style="max-width: 450px; margin: 20px auto; display:none;">
+                <div class="panel-title">Register</div>
+                <div id="registerMessage" class="message-box"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPassword">
+                        <button class="toggle-password" onclick="togglePassword('regPassword')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regConfirmPassword">
+                        <button class="toggle-password" onclick="togglePassword('regConfirmPassword')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="register()">Register</button>
+                <p style="margin-top:15px; text-align:center"><a href="#" onclick="showLogin()">Back to Login</a></p>
+            </div>
+        </div>
+        
+        <!-- Dashboard -->
+        <div id="dashboardScreen" style="display:none">
+            <div class="badge">🟢 SIMULATED MODE - Uses Real Binance Market Data • No Real Money • Captures Spread</div>
+            
+            <div class="grid-2">
+                <div>
+                    <div class="panel">
+                        <div class="panel-title">Simulated Setup</div>
+                        <div id="apiMessage" class="message-box"></div>
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="apiKey" placeholder="API Key (optional for demo)">
+                                <button class="toggle-password" onclick="togglePassword('apiKey')"><i class="fas fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Secret Key</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="secretKey" placeholder="Secret Key (optional for demo)">
+                                <button class="toggle-password" onclick="togglePassword('secretKey')"><i class="fas fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Type</label>
+                            <select id="accountType">
+                                <option value="simulated">🟢 Simulated Mode (Practice - No Real Money)</option>
+                                <option value="real">🕋 Real Binance (Requires API Keys)</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSimulatedKeys()">Save Keys</button>
+                        <button class="btn btn-success" onclick="connectSimulated()">Connect</button>
+                        <div style="margin-top:15px; font-size:10px; background:#E8F5E9; padding:8px; border-radius:8px;">
+                            <i class="fas fa-info-circle"></i> Uses REAL Binance order book data • Trades capture bid-ask spread
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">Simulated Balance</div>
+                        <div class="balance-card">
+                            <div class="balance-amount" id="balanceDisplay">-- USDT</div>
+                        </div>
+                        <button class="btn btn-info" onclick="refreshBalance()">Refresh Balance</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="panel">
+                        <div class="panel-title">Trading Settings</div>
+                        <div class="form-group"><label>💰 Investment Amount ($)</label><input type="number" id="investment" value="10" min="10"></div>
+                        <div class="form-group"><label>🎯 Target Amount ($)</label><input type="number" id="targetAmount" value="100" min="11"></div>
+                        <div class="form-group"><label>📈 Profit Per Trade</label>
+                            <input type="text" value="Market Spread (Bid-Ask)" disabled style="background:#f5f5f5;">
+                            <small>No fixed percentage – captures the spread automatically</small>
+                        </div>
+                        <div class="form-group"><label>⏰ Time Limit (Hours)</label><input type="number" id="timeLimit" value="1" min="0.5" max="24" step="0.5"></div>
+                        <button class="btn btn-success" id="startBtn" onclick="startTrading()" disabled>Start Unlimited Trading</button>
+                        <button class="btn btn-danger" id="stopBtn" onclick="stopTrading()" disabled>Stop</button>
+                        <div id="tradeStatus" class="status status-inactive" style="margin-top:15px"><span class="dot red"></span> Not Trading</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Panel -->
+            <div class="panel">
+                <div class="panel-title">Target Progress <span class="unlimited-badge">UNLIMITED CONCURRENT TRADES • NO FIXED PROFIT %</span></div>
+                <div class="grid-3">
+                    <div>Current Balance: <strong id="currentBalance">$0</strong></div>
+                    <div>Target Amount: <strong id="targetDisplay">$0</strong></div>
+                    <div>Total Profit: <strong id="totalProfit">$0</strong></div>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%">0%</div></div>
+                <div class="grid-3">
+                    <div>Total Trades: <strong id="totalTrades">0</strong></div>
+                    <div>Active Trades: <strong id="activeTrades">0</strong></div>
+                    <div>Win Rate: <strong id="winRate">100%</strong></div>
+                </div>
+                <div class="grid-3">
+                    <div>Profit Type: <strong>Market Spread</strong></div>
+                    <div>Time Remaining: <strong id="timeRemaining">-</strong></div>
+                    <div>Status: <strong id="sessionStatus">-</strong></div>
+                </div>
+            </div>
+            
+            <!-- Trade History -->
+            <div class="panel">
+                <div class="panel-title">Trade History (Captures Bid-Ask Spread)</div>
+                <div id="tradeHistory" class="trade-list">No trades yet</div>
+                <button class="btn btn-info" onclick="loadTradeHistory()" style="margin-top:10px">Refresh History</button>
+            </div>
+            
+            <!-- Admin Panel -->
+            <div id="adminPanel" style="display:none" class="admin-section">
+                <div class="panel">
+                    <div class="panel-title">Pending Approvals</div>
+                    <div id="pendingUsersList"></div>
+                    <button class="btn btn-info" onclick="loadPendingUsers()">Refresh</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">All Users</div>
+                    <div id="allUsersList"></div>
+                    <button class="btn btn-info" onclick="loadAllUsers()">Refresh</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">User Balances</div>
+                    <div id="userBalancesList"></div>
+                    <button class="btn btn-info" onclick="refreshUserBalances()">Refresh</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">All Trades</div>
+                    <div id="allTradesList"></div>
+                    <button class="btn btn-info" onclick="loadAllTrades()">Refresh</button>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">Change Owner Password</div>
+                    <div class="password-wrapper">
+                        <input type="password" id="currentPass" placeholder="Current Password" style="width:100%; margin-bottom:10px">
+                        <button class="toggle-password" onclick="togglePassword('currentPass')"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <div class="password-wrapper">
+                        <input type="password" id="newPass" placeholder="New Password" style="width:100%; margin-bottom:10px">
+                        <button class="toggle-password" onclick="togglePassword('newPass')"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmPass" placeholder="Confirm Password" style="width:100%; margin-bottom:10px">
+                        <button class="toggle-password" onclick="togglePassword('confirmPass')"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <button class="btn btn-primary" onclick="changePassword()">Change Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>🕋 Halal Unlimited Trades • No fixed profit % • Captures market spread • Auto-compounding • No leverage • No short selling • Limit orders only</p>
+    </div>
+</div>
+
+<script>
+    let token = localStorage.getItem('token');
+    let isOwner = localStorage.getItem('isOwner') === 'true';
+    let currentSessionId = null;
+    let statusInterval = null;
+    let adminInterval = null;
+
+    // FontAwesome icons (simple emoji fallback if CDN fails)
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const parent = input.parentElement;
+        const icon = parent.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+        } else {
+            input.type = 'password';
+            if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+        }
+    }
+
+    function showMessage(elemId, msg, type) {
+        let e = document.getElementById(elemId);
+        if(e) { e.textContent = msg; e.className = `message-box message-${type}`; e.style.display = 'block'; setTimeout(() => e.style.display = 'none', 5000); }
+    }
+
+    async function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        if(!email || !password) { alert('Enter email and password'); return; }
+        try {
+            const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+            const data = await res.json();
+            if(data.success) {
+                token = data.token; isOwner = data.isOwner;
+                localStorage.setItem('token', token); localStorage.setItem('isOwner', isOwner);
+                document.getElementById('userEmail').innerText = email;
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'inline-block';
+                document.getElementById('authScreen').style.display = 'none';
+                document.getElementById('dashboardScreen').style.display = 'block';
+                if(isOwner) document.getElementById('adminPanel').style.display = 'block';
+                loadApiKeys();
+                refreshBalance();
+                if(isOwner) { loadPendingUsers(); loadAllUsers(); refreshUserBalances(); loadAllTrades(); startAdminRefresh(); }
+                startStatusPolling();
+                showMessage('loginMessage', 'Login successful!', 'success');
+            } else alert('Login failed: ' + data.message);
+        } catch(e) { alert('Error: ' + e.message); }
+    }
+
+    function logout() { if(adminInterval) clearInterval(adminInterval); if(statusInterval) clearInterval(statusInterval); localStorage.clear(); location.reload(); }
+    function showLogin() { document.getElementById('registerForm').style.display = 'none'; document.getElementById('loginForm').style.display = 'block'; }
+    function showRegister() { document.getElementById('loginForm').style.display = 'none'; document.getElementById('registerForm').style.display = 'block'; }
+
+    async function register() {
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        if(!email || !password) { alert('Enter email and password'); return; }
+        if(password !== confirm) { alert('Passwords do not match'); return; }
+        if(password.length < 6) { alert('Password must be at least 6 characters'); return; }
+        try {
+            const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+            const data = await res.json();
+            if(data.success) alert('Registration request sent! Owner will approve.');
+            else alert('Error: ' + data.message);
+        } catch(e) { alert('Error: ' + e.message); }
+    }
+
+    async function loadApiKeys() {
+        try {
+            const res = await fetch('/api/get-keys', { headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await res.json();
+            if(data.success) {
+                document.getElementById('apiKey').value = data.apiKey || '';
+                document.getElementById('secretKey').value = data.secretKey || '';
+                if(data.accountType) document.getElementById('accountType').value = data.accountType;
+            }
+        } catch(e) {}
+    }
+
+    async function saveSimulatedKeys() {
+        const accountType = document.getElementById('accountType').value;
+        const apiKey = document.getElementById('apiKey').value;
+        const secretKey = document.getElementById('secretKey').value;
+        try {
+            const res = await fetch('/api/set-simulated-keys', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ apiKey, secretKey, accountType }) });
+            const data = await res.json();
+            if(data.success) showMessage('apiMessage', data.message, 'success');
+            else showMessage('apiMessage', 'Error: ' + data.message, 'error');
+        } catch(e) { showMessage('apiMessage', 'Error: ' + e.message, 'error'); }
+    }
+
+    async function connectSimulated() {
+        const accountType = document.getElementById('accountType').value;
+        try {
+            const res = await fetch('/api/connect-simulated', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ accountType }) });
+            const data = await res.json();
+            if(data.success) {
+                showMessage('apiMessage', data.message, 'success');
+                document.getElementById('startBtn').disabled = false;
+                refreshBalance();
+            } else showMessage('apiMessage', 'Connection failed: ' + data.message, 'error');
+        } catch(e) { showMessage('apiMessage', 'Error: ' + e.message, 'error'); }
+    }
+
+    async function refreshBalance() {
+        try {
+            const res = await fetch('/api/get-balance', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await res.json();
+            if(data.success) document.getElementById('balanceDisplay').innerText = data.balance.toFixed(2) + ' USDT';
+        } catch(e) {}
+    }
+
+    async function startTrading() {
+        const investment = parseFloat(document.getElementById('investment').value);
+        const target = parseFloat(document.getElementById('targetAmount').value);
+        const timeLimit = parseFloat(document.getElementById('timeLimit').value);
+        if(investment < 10) { alert('Minimum $10'); return; }
+        if(target <= investment) { alert('Target must be greater than investment'); return; }
+        try {
+            const res = await fetch('/api/start-trading', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ investmentAmount: investment, targetAmount: target, timeLimitHours: timeLimit }) });
+            const data = await res.json();
+            if(data.success) {
+                currentSessionId = data.sessionId;
+                alert(data.message);
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('tradeStatus').innerHTML = '<span class="dot green"></span> Unlimited Trading Active';
+                document.getElementById('tradeStatus').className = 'status status-active';
+                document.getElementById('targetDisplay').innerText = '$' + target;
+            } else alert('Error: ' + data.message);
+        } catch(e) { alert('Error: ' + e.message); }
+    }
+
+    async function stopTrading() {
+        if(!currentSessionId) return;
+        try {
+            const res = await fetch('/api/stop-trading', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ sessionId: currentSessionId }) });
+            const data = await res.json();
+            if(data.success) {
+                currentSessionId = null;
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                document.getElementById('tradeStatus').innerHTML = '<span class="dot red"></span> Not Trading';
+                document.getElementById('tradeStatus').className = 'status status-inactive';
+            }
+        } catch(e) {}
+    }
+
+    async function loadTradeHistory() {
+        try {
+            const res = await fetch('/api/trade-history', { headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await res.json();
+            if(data.success && data.trades.length) {
+                let html = '能able<th>#</th><th>Symbol</th><th>Entry</th><th>Exit</th><th>Profit</th><th>Spread</th><th>Balance</th><th>Time</th></tr>';
+                data.trades.slice(0, 50).forEach(t => {
+                    html += `<tr>
+                        <td>${t.tradeNumber}</td>
+                        <td>${t.symbol}</td>
+                        <td>$${t.entryPrice?.toFixed(2)}</td>
+                        <td>$${t.exitPrice?.toFixed(2)}</td>
+                        <td class="${t.profit > 0 ? 'profit-positive' : ''}">$${t.profit?.toFixed(4)} (${t.profitPercent}%)</td>
+                        <td>${t.spread || '-'}%</td>
+                        <td>$${t.balanceAfter?.toFixed(2)}</td>
+                        <td>${new Date(t.timestamp).toLocaleTimeString()}</td>
+                    </tr>`;
+                });
+                html += '<td>';
+                document.getElementById('tradeHistory').innerHTML = html;
+            } else document.getElementById('tradeHistory').innerHTML = 'No trades yet';
+        } catch(e) {}
+    }
+
+    async function loadTradeStatus() {
+        if(!currentSessionId) return;
+        try {
+            const res = await fetch('/api/trade-status', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ sessionId: currentSessionId }) });
+            const data = await res.json();
+            if(data.success && data.active) {
+                document.getElementById('currentBalance').innerText = '$' + data.currentBalance.toFixed(2);
+                document.getElementById('totalProfit').innerText = '$' + data.totalProfit.toFixed(2);
+                document.getElementById('progressFill').style.width = data.progressPercent + '%';
+                document.getElementById('progressFill').innerText = data.progressPercent + '%';
+                document.getElementById('totalTrades').innerText = data.totalTrades;
+                document.getElementById('activeTrades').innerText = data.activeTrades;
+                document.getElementById('timeRemaining').innerText = data.timeRemaining + 'h';
+                document.getElementById('sessionStatus').innerText = data.status;
+                if(data.status === 'TARGET_REACHED') { alert('🎯 TARGET REACHED!'); stopTrading(); loadTradeHistory(); }
+                if(data.status === 'TIME_LIMIT_REACHED') { alert('⏰ Time limit reached!'); stopTrading(); }
+            } else if(!data.active) stopTrading();
+        } catch(e) {}
+    }
+
+    function startStatusPolling() { if(statusInterval) clearInterval(statusInterval); statusInterval = setInterval(() => { if(currentSessionId) loadTradeStatus(); }, 500); }
+
+    // Admin functions
+    async function loadPendingUsers() { if(!token || !isOwner) return; try { const res = await fetch('/api/admin/pending-users', { headers: { 'Authorization': 'Bearer ' + token } }); const data = await res.json(); if(data.success && data.pending.length) { let html = '能able<th>Email</th><th>Date</th><th>Action</th><tr>'; data.pending.forEach(p => { html += `<tr><td>${p.email}</td><td>${new Date(p.requestedAt).toLocaleString()}</td><td><button onclick="approveUser('${p.email}')">Approve</button> <button onclick="rejectUser('${p.email}')">Reject</button></td></tr>`; }); html += '<tr>'; document.getElementById('pendingUsersList').innerHTML = html; } else document.getElementById('pendingUsersList').innerHTML = 'No pending requests'; } catch(e){} }
+    async function loadAllUsers() { if(!token || !isOwner) return; try { const res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + token } }); const data = await res.json(); if(data.success) { let html = '能able<th>Email</th><th>Status</th><th>Action</th></tr>'; data.users.forEach(u => { if(!u.isOwner) html += `<tr><td>${u.email}</td><td>${u.isBlocked ? 'BLOCKED' : 'ACTIVE'}</td><td><button onclick="toggleBlock('${u.email}')">${u.isBlocked ? 'Unblock' : 'Block'}</button></td></tr>`; }); html += '</table>'; document.getElementById('allUsersList').innerHTML = html; } } catch(e){} }
+    async function refreshUserBalances() { if(!token || !isOwner) return; try { const res = await fetch('/api/admin/user-balances', { headers: { 'Authorization': 'Bearer ' + token } }); const data = await res.json(); if(data.success) { let html = '能able<th>User</th><th>Balance</th><tr>'; for(const [email, balance] of Object.entries(data.balances)) html += `<tr><td>${email}</td> Was$${balance.balance?.toFixed(2)}</td></tr>`; html += '</table>'; document.getElementById('userBalancesList').innerHTML = html; } } catch(e){} }
+    async function loadAllTrades() { if(!token || !isOwner) return; try { const res = await fetch('/api/admin/all-trades', { headers: { 'Authorization': 'Bearer ' + token } }); const data = await res.json(); if(data.success) { let html = ''; for(const [userId, trades] of Object.entries(data.trades)) { if(trades.length) { html += `<h4>${userId}</h4>能able<th>#</th><th>Symbol</th><th>Profit</th><th>Spread</th><th>Date</th></tr>`; trades.slice(0, 20).forEach(t => { html += `<tr>
+                        <td>${t.tradeNumber}</td>
+                        <td>${t.symbol}</td>
+                        <td>$${t.profit?.toFixed(4)} (${t.profitPercent}%)</td>
+                        <td>${t.spread || '-'}%</td>
+                        <td>${new Date(t.timestamp).toLocaleDateString()}</td>
+                    </tr>`; }); html += '</table>'; } } if(!html) html = '<p>No trades</p>'; document.getElementById('allTradesList').innerHTML = html; } } catch(e){} }
+    async function approveUser(email) { await fetch('/api/admin/approve-user', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ email }) }); loadPendingUsers(); loadAllUsers(); }
+    async function rejectUser(email) { await fetch('/api/admin/reject-user', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ email }) }); loadPendingUsers(); }
+    async function toggleBlock(email) { await fetch('/api/admin/toggle-block', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ email }) }); loadAllUsers(); refreshUserBalances(); }
+    async function changePassword() { const current = document.getElementById('currentPass').value; const newPass = document.getElementById('newPass').value; const confirm = document.getElementById('confirmPass').value; if(newPass !== confirm) { alert('Passwords do not match'); return; } const res = await fetch('/api/change-password', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ currentPassword: current, newPassword: newPass }) }); const data = await res.json(); alert(data.message); if(data.success) logout(); }
+
+    function startAdminRefresh() { if(adminInterval) clearInterval(adminInterval); adminInterval = setInterval(() => { if(isOwner) { loadPendingUsers(); loadAllUsers(); refreshUserBalances(); } }, 15000); }
+
+    if(token) {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('dashboardScreen').style.display = 'block';
+        if(isOwner) { document.getElementById('adminPanel').style.display = 'block'; loadPendingUsers(); loadAllUsers(); refreshUserBalances(); loadAllTrades(); startAdminRefresh(); }
+        loadApiKeys(); refreshBalance(); loadTradeHistory(); startStatusPolling();
+    }
+
+    // Expose functions globally
+    window.togglePassword = togglePassword;
+    window.login = login; window.logout = logout; window.showLogin = showLogin; window.showRegister = showRegister; window.register = register;
+    window.saveSimulatedKeys = saveSimulatedKeys; window.connectSimulated = connectSimulated; window.refreshBalance = refreshBalance;
+    window.startTrading = startTrading; window.stopTrading = stopTrading; window.loadTradeHistory = loadTradeHistory;
+    window.loadPendingUsers = loadPendingUsers; window.loadAllUsers = loadAllUsers; window.refreshUserBalances = refreshUserBalances;
+    window.loadAllTrades = loadAllTrades; window.approveUser = approveUser; window.rejectUser = rejectUser; window.toggleBlock = toggleBlock; window.changePassword = changePassword;
+</script>
+</body>
+</html>
